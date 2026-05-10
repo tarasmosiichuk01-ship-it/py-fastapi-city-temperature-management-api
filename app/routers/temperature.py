@@ -1,7 +1,7 @@
 import asyncio
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import schemas, crud
@@ -26,6 +26,9 @@ async def update_temperatures(
     tasks = [get_weather(city.name) for city in cities]
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
+    if results is None:
+        raise HTTPException(status_code=404, detail="City not found")
+
     saved = []
     for city, result in zip(cities, results):
         if isinstance(result, Exception):
@@ -38,6 +41,9 @@ async def update_temperatures(
             temperature=temperature,
             date_time=datetime.now(timezone.utc)
         )
+        if record is None:
+            raise HTTPException(status_code=404, detail="City not found")
+
         saved.append(record)
 
     return saved

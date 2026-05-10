@@ -3,16 +3,12 @@ import datetime
 from pydantic import BaseModel, ConfigDict
 
 
-class CityBase(BaseModel):
+class CityCreate(BaseModel):
     name: str
-    additional_info: str
+    additional_info: str | None = None
 
 
-class CityCreate(CityBase):
-    id: int
-
-
-class CityRead(CityBase):
+class CityRead(CityCreate):
 
     id: int
     model_config = ConfigDict(from_attributes=True)

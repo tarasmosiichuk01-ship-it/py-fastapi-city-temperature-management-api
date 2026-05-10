@@ -7,9 +7,9 @@ from app.dependencies import get_db
 router = APIRouter()
 
 
-@router.post("/cities", response_model=schemas.CityCreate)
+@router.post("/cities", response_model=schemas.CityRead)
 async def create_city(
-    city: schemas.CityBase,
+    city: schemas.CityCreate,
     db: AsyncSession = Depends(get_db)
 ) -> schemas.CityCreate:
 
@@ -19,7 +19,7 @@ async def create_city(
 @router.get("/cities", response_model=list[schemas.CityRead])
 async def get_all_cities(
     db: AsyncSession = Depends(get_db)
-) -> schemas.CityRead:
+) -> list[schemas.CityRead]:
     return await crud.read_all_cities(db=db)
 
 

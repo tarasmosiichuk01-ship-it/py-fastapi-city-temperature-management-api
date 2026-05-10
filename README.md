@@ -4,10 +4,10 @@ A FastAPI application for managing cities and storing temperature history data.
 
 The application provides:
 
-* CRUD operations for cities
-* Fetching current weather data from an external API
-* Saving temperature history to a SQLite database
-* Filtering temperature records by city
+* CRUD operations for cities.
+* Fetching current weather data from an external API.
+* Saving temperature history to a SQLite database.
+* Filtering temperature records by city.
 
 ---
 

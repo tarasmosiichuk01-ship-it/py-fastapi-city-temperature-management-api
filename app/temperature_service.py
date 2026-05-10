@@ -18,7 +18,7 @@ if not API_KEY:
     raise RuntimeError("API_KEY environment variable is not set")
 
 
-async def get_weather(city: str) -> DBTemperature:
+async def get_weather(city: str) -> dict:
     params = {"key": API_KEY, "q": city}
     async with httpx.AsyncClient() as client:
         try:

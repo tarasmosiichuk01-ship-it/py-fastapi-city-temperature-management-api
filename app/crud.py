@@ -27,8 +27,6 @@ async def read_all_cities(db: AsyncSession) -> list[models.DBCity]:
 
 
 async def read_city(db: AsyncSession, city_id: int) -> models.DBCity | None:
-    if not city_id:
-        raise HTTPException(status_code=400, detail="City not found")
     return await db.scalar(
         select(models.DBCity).where(models.DBCity.id == city_id)
     )
@@ -39,8 +37,6 @@ async def update_city(
     city_id: int,
     city: schemas.CityBase
 ) -> models.DBCity | None:
-    if not city_id:
-        raise HTTPException(status_code=400, detail="City not found")
     queryset = (
         update(models.DBCity)
         .where(models.DBCity.id == city_id)
@@ -53,16 +49,14 @@ async def update_city(
 
 
 async def delete_city(db: AsyncSession, city_id: int) -> None:
-    if not city_id:
-        raise HTTPException(status_code=400, detail="City not found")
     queryset = delete(models.DBCity).where(models.DBCity.id == city_id)
     await db.execute(queryset)
     await db.commit()
 
 
 async def read_all_temperatures(
-    city_id: int,
-    db: AsyncSession
+    db: AsyncSession,
+    city_id: int | None = None
 ) -> list[models.DBTemperature]:
     queryset = select(models.DBTemperature)
     if city_id is not None:
