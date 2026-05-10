@@ -26,7 +26,7 @@ async def update_temperatures(
     tasks = [get_weather(city.name) for city in cities]
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
-    if results is None:
+    if not results:
         raise HTTPException(status_code=404, detail="City not found")
 
     saved = []
